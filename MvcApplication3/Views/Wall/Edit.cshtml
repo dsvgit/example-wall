@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.9.0.js"></script>
+<script src="~/Scripts/handlebars.js"></script>
+<h1>Edit post</h1>
+<script type="text/x-handlebars-template" id="edit-form-template">
+    {{#Post}}
+    <input type="hidden" name="id" id="id" value="{{Id}}" />
+    <label for="title">title</label>
+    <input type="text" name="title" id="title" value="{{Title}}" /><br />
+    <label for="author">author</label>
+    <input type="text" name="author" id="author" value="{{Author}}" /><br />
+    <label for="body">text</label>
+    <textarea name="body" id="body" rows="10" cols="30">{{Body}}</textarea><br />
+    <input type="submit" value="Edit" />
+    {{/Post}}
+</script>
+@Html.Hidden("id", new { value = ViewBag.id }, new { id = "id" })
+<script>
+
+    $(function () {
+        var SourceHtml, dataToSend;
+
+        dataToSend = {
+            id: $("#id").val()
+        }
+
+        console.log(dataToSend);
+
+        SourceHtml = Handlebars.compile($("#edit-form-template").html());
+
+        $.post("@Url.Action("GetPost")", dataToSend, function (data) {
+
+            console.log(data);
+            $("#edit-post-form").html(SourceHtml(data));
+
+        }, "json");
+
+    });
+
+</script>
+<form id="edit-post-form" method="post" action="/Wall/Edit"></form>
+@Html.ActionLink("Back to the wall", "Index")

@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.9.0.js"></script>
+<script src="~/Scripts/handlebars.js"></script>
+<h1>Wall</h1>
+@Html.ActionLink("Create New", "Create")
+<script type="text/x-handlebars-template" id="posts-template">
+    {{#Posts}}
+    <h2>{{Title}}</h2>
+    <div>
+        <p>{{Body}}</p>
+    </div>
+    <p>{{Author}}</p>
+    <p><a href="/Wall/Edit/{{Id}}">Edit</a> 
+    | <a href="/Wall/Details/{{Id}}">Details</a>
+    | <a href="/Wall/Delete/{{Id}}">Delete</a></p>
+    {{/Posts}}
+</script>
+
+<script>
+
+    $(function () {
+        var SourceHtml;
+
+        SourceHtml = Handlebars.compile( $("#posts-template").html() );
+
+        $.post("@Url.Action("GetPosts")", "", function (data) {
+
+            console.log(data);
+
+            $("#wall").html(SourceHtml(data));
+
+        }, "json");
+
+
+    });
+
+</script>
+
+<div id="wall"></div>
+
+
+
+

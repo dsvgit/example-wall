@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.9.0.js"></script>
+<script src="~/Scripts/handlebars.js"></script>
+<h1>Create post</h1>
+<form id="create-post-form" method="post" action="/Wall/Create">
+    <label for="title">title</label>
+    <input type="text" name="title" id="title" value=" " /><br />
+    <label for="author">author</label>
+    <input type="text" name="author" id="author" value=" " /><br />
+    <label for="body">text</label>
+    <textarea name="body" id="body"></textarea><br />
+    <input type="submit" value="Create" />
+</form>
+@Html.ActionLink("Back to the wall", "Index")

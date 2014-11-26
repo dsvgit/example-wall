@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.9.0.js"></script>
+<script src="~/Scripts/handlebars.js"></script>
+<script type="text/x-handlebars-template" id="details-template">
+    {{#Post}}
+    <h1>{{Title}}</h1>
+    <p>{{Body}}</p>
+    <p>{{Author}}</p>
+    {{/Post}}
+</script>
+@Html.Hidden("id", new { value = ViewBag.id }, new { id = "id" })
+<script>
+
+    $(function () {
+        var SourceHtml, dataToSend;
+
+        dataToSend = {
+            id: $("#id").val()
+        }
+
+        console.log(dataToSend);
+
+        SourceHtml = Handlebars.compile($("#details-template").html());
+
+        $.post("@Url.Action("GetPost")", dataToSend, function (data) {
+
+            console.log(data);
+            $("#details-container").html(SourceHtml(data));
+
+        }, "json");
+
+    });
+
+</script>
+<div id="details-container"></div>
+@Html.ActionLink("Back to the wall", "Index")
